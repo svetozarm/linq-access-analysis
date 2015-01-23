@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-I. -std=c++11 
-DEPS = 
+DEPS = data.hpp
 
 %: %.cpp $(DEPS)
 		$(CC) -o $@ $< $(CFLAGS)
