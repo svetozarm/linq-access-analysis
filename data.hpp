@@ -32,6 +32,25 @@ data_record *data_gen_random(unsigned int number) {
     return d;
 }
 
+std::vector<data_record> data_gen_random_vec(unsigned int number) {
+    std::vector<data_record> vec;
+    for (int i = 0; i < number; i++) {
+        data_record rec;
+        for (int j = 0; j < LEN_FIRST_NAME; j++) {
+            rec.first_name[j] = 'a' + (rand() % 26);
+        }
+        rec.first_name[LEN_FIRST_NAME - 1] = 0;
+
+        for (int j = 0; j < LEN_LAST_NAME; j++) {
+            rec.last_name[j] = 'a' + (rand() % 26);
+        }
+        rec.last_name[LEN_LAST_NAME - 1] = 0;
+
+        vec.push_back(rec);
+    }
+    return vec;
+}
+
 void data_print_record(data_record *d) {
     std::cout << d->first_name << " " << d->last_name << std::endl;
 }

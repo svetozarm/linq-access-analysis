@@ -4,24 +4,24 @@
 #include "cpplinq.hpp"
 #include "data.hpp"
 
-int computes_a_sum ()
-{
-    using namespace cpplinq;
-    int ints[] = {3,1,4,1,5,9,2,6,5,4};
-
-    auto result =    from_array (ints)
-        >> where ([](int i) {return i%2 ==0;})  // Keep only even numbers
-        >> sum ()                               // Sum remaining numbers
-        ;
-    return result;
-}
+#define NR_RECORDS 1000000
 
 int main(int argc, char **argv){
-    data_record *r = data_gen_random(1000);
+    auto r = data_gen_random_vec(NR_RECORDS);
 
-    for (int i = 0; i < 1000; i++) {
-        data_print_record(&(r[i]));
-    }    
+    {
+        using namespace cpplinq;
+
+        auto sorted = from(r)
+                    >> orderby_ascending ([] (data_record const & d) {return d.first_name;})
+                    >> to_vector();
+        
+        auto result = from(r)
+        //auto result = from(sorted)
+                    >> orderby_ascending ([] (data_record const & d) {return d.first_name;})
+                    >> where ([] (data_record const &d) { return d.first_name[0] == 'a'; })
+                    >> to_vector();
+    }
 
     return 0;
 }
